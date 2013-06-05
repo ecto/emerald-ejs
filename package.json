@@ -1,0 +1,12 @@
+{
+  "name": "emerald-ejs",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": "",
+  "author": "ecto",
+  "license": "BSD",
+  "dependencies": {
+    "ejs": "0.8.4"
+  }
+}
