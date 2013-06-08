@@ -1,8 +1,8 @@
 var fs = require('fs');
 var ejs = require('ejs');
-var app = process.app;
+var app = process.app || {};
 
-app && app.cacheViews = false;
+app.cacheViews = false;
 var views = {};
 var path = 'views/';
 
