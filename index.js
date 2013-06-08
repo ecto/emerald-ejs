@@ -1,6 +1,8 @@
 var fs = require('fs');
 var ejs = require('ejs');
+var app = process.app;
 
+app && app.cacheViews = false;
 var views = {};
 var path = 'views/';
 
@@ -22,7 +24,7 @@ module.exports = function (req, res) {
 }
 
 function loadView (name, callback) {
-  if (views[name]) {
+  if (app.cacheViews && views[name]) {
     callback(views[name]);
     return;
   } else {
