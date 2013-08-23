@@ -38,8 +38,10 @@ function loadView (name, callback, force) {
     views[name] = data;
     callback(data);
 
-    fs.watchFile(fullName, function (curr, prev) {
-      loadView(name, function () {}, true);
-    });
+    if (!force) {
+      fs.watchFile(fullName, function (curr, prev) {
+        loadView(name, function () {}, true);
+      });
+    }
   });
 }
