@@ -18,22 +18,28 @@ module.exports = function (req, res) {
       loadView(layout, function (layoutStr) {
         var ret = ejs.render(layoutStr, options);
         res.end(ret);
+
       });
     });
   }
 }
 
-function loadView (name, callback) {
-  if (app.cacheViews && views[name]) {
+function loadView (name, callback, force) {
+  var fullName = path + name + '.ejs';
+
+  if (app.cacheViews && views[name] && !force) {
     callback(views[name]);
     return;
-  } else {
-    fs.readFile(path + name + '.ejs', function (err, data) {
-      if (err) throw err;
-      data = data.toString();
-      views[name] = data;
-      callback(data);
-    });
-    return;
   }
+
+  fs.readFile(fullName, function (err, data) {
+    if (err) throw err;
+    data = data.toString();
+    views[name] = data;
+    callback(data);
+
+    fs.watchFile(fullName, function (curr, prev) {
+      loadView(name, function () {}, true);
+    });
+  });
 }
